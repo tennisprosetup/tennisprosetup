@@ -24,7 +24,8 @@ function populatePlayer(player) {
     return;
   }
 
-  document.getElementById("player-name").textContent = player.Player || "";
+  const flag = player.Flag || "";
+  document.getElementById("player-name").textContent = `${flag} ${player.Player || ""}`;
 
   if (player["Photo URL"]) {
     const img = document.createElement("img");
