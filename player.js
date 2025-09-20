@@ -1,4 +1,4 @@
-const PUBLISHED_CSV_URL = "YOUR_PUBLISHED_CSV_CSV_URL_HERE";
+const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7DFk4fntK4y3XLB44CyfCukb0ha4iJ5_rArSf0F401aVb6s0qRssuA6bCwEJW9sRN-J-qOYa8YChw/pub?output=csv";
 
 function populatePlayer(data, slug) {
   const player = data.find(p => p.Slug === slug);
