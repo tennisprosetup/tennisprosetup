@@ -13,24 +13,11 @@ function csvToArray(csv) {
   });
 }
 
-// Convert country name to emoji
-function countryToEmoji(country) {
-  if (!country) return "";
-  return country
-    .toUpperCase()
-    .replace(/ /g, "")
-    .split('')
-    .map(c => String.fromCodePoint(127397 + c.charCodeAt()))
-    .join('');
-}
-
 // Create a table row for a player
 function createPlayerRow(item) {
   const player = item.Player || "";
   const slug = item.Slug || "";
-  const country = item.Country || "";
-
-  const countryEmoji = countryToEmoji(country);
+  const flag = item.Flag || "";
   const racket = item["Racket Model"] || "";
   const strings = item["String Model"] || "";
   const shoes = item["Shoe Model"] || "";
@@ -38,10 +25,10 @@ function createPlayerRow(item) {
 
   const tr = document.createElement("tr");
 
-  // Player cell
+  // Player cell with flag emoji
   const tdPlayer = document.createElement("td");
   tdPlayer.setAttribute("data-label", "Player");
-  tdPlayer.innerHTML = `${countryEmoji} <a href="player.html?player=${slug}"><strong>${player}</strong></a>`;
+  tdPlayer.innerHTML = `${flag} <a href="player.html?player=${slug}"><strong>${player}</strong></a>`;
   tr.appendChild(tdPlayer);
 
   // Racket (clickable)
@@ -50,13 +37,13 @@ function createPlayerRow(item) {
   tdRacket.innerHTML = `<a href="gear.html?type=racket&name=${encodeURIComponent(racket)}">${racket}</a>`;
   tr.appendChild(tdRacket);
 
-  // Strings
+  // Strings (clickable)
   const tdStrings = document.createElement("td");
   tdStrings.setAttribute("data-label", "Strings");
   tdStrings.innerHTML = `<a href="gear.html?type=strings&name=${encodeURIComponent(strings)}">${strings}</a>`;
   tr.appendChild(tdStrings);
 
-  // Shoes
+  // Shoes (clickable)
   const tdShoes = document.createElement("td");
   tdShoes.setAttribute("data-label", "Shoes");
   tdShoes.innerHTML = `<a href="gear.html?type=shoes&name=${encodeURIComponent(shoes)}">${shoes}</a>`;
