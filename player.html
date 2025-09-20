@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Player Gear</title>
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Default meta (will be updated dynamically) -->
-  <meta name="description" content="Find out what gear tennis players use — rackets, strings, shoes and more.">
-  <meta name="robots" content="index, follow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Player Gear | Tennis Pro Setup</title>
+  <meta name="description" id="meta-description" content="Find out what gear this tennis player uses – rackets, strings, shoes and more.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a class="back-link" href="index.html">← Back to all players</a>
+  <header>
+    <nav>
+      <a href="index.html">← Back to all players</a>
+    </nav>
+  </header>
 
-  <main id="player-content">
-    <h1 id="player-name">Loading player...</h1>
-    <div id="player-photo"></div>
-    <p id="player-intro" style="max-width:700px;margin:0.6rem auto 1.2rem;text-align:center;color:#444"></p>
-    <div id="player-gear" style="max-width:700px;margin:0 auto;"></div>
+  <main>
+    <section id="player-header">
+      <h1 id="player-name">Loading player...</h1>
+    </section>
+
+    <section id="player-gear">
+      <table class="gear-table">
+        <tbody id="gear-details">
+          <!-- Filled by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <section id="related-players">
+      <!-- JS will inject "Racket also used by..." etc -->
+    </section>
   </main>
+
+  <footer>
+    <p>&copy; 2025 Tennis Pro Setup</p>
+  </footer>
 
   <script src="player.js"></script>
 </body>
