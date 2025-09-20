@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tennis Pro Setup</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Tabletop for Google Sheets -> JSON convenience -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.5.1/tabletop.min.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Tennis Pro Setup</h1>
+      <p>What rackets & strings top players actually use — click to buy.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="intro">
+      <p>Tip: update the Google Sheet and this page updates automatically.</p>
+    </section>
+
+    <section id="table-section">
+      <input id="search" placeholder="Search player, model or brand..." />
+      <div class="table-wrap">
+        <table id="gear-table" aria-describedby="gear-table">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Gear</th>
+              <th>Model</th>
+              <th>Specs</th>
+              <th>Buy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Rows inserted by script.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© Tennis Pro Setup — Launching with sample data. Replace links with your affiliate links.</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
