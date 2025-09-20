@@ -1,5 +1,5 @@
 // ---------- CONFIG: paste your published CSV URL here ----------
-const PUBLISHED_CSV_URL = "PASTE_YOUR_PUBLISHED_CSV_URL_HERE";
+const PUBLISHED_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ7DFk4fntK4y3XLB44CyfCukb0ha4iJ5_rArSf0F401aVb6s0qRssuA6bCwEJW9sRN-J-qOYa8YChw/pub?output=csv";
 // ----------------------------------------------------------------
 
 function createPlayerRow(item) {
