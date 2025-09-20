@@ -13,74 +13,76 @@ function csvToArray(csv) {
   });
 }
 
-// Create a table row for a player
-function createPlayerRow(item) {
-  try {
-    const player = item.Player || "";
-    const photo = item["Photo URL"] || "";
-    const country = item.Country || "";
-    const racket = `${item["Racket Brand"] || ""} ${item["Racket Model"] || ""}`;
-    const strings = `${item["String Brand"] || ""} ${item["String Model"] || ""}`;
-    const shoes = `${item["Shoe Brand"] || ""} ${item["Shoe Model"] || ""}`;
-    const notes = item.Notes || "";
-    const slug = item.Slug || "";
-
-    const tr = document.createElement("tr");
-
-    // Player column with photo and link
-    const tdPlayer = document.createElement("td");
-    tdPlayer.innerHTML = photo
-      ? `<img class="player-thumb" src="${photo}" alt="${player}"> <a href="player.html?player=${slug}"><strong>${player}</strong></a>`
-      : `<a href="player.html?player=${slug}"><strong>${player}</strong></a>`;
-    tr.appendChild(tdPlayer);
-
-    // Country
-    const tdCountry = document.createElement("td");
-    tdCountry.textContent = country;
-    tr.appendChild(tdCountry);
-
-    // Racket
-    const tdRacket = document.createElement("td");
-    tdRacket.textContent = racket;
-    tr.appendChild(tdRacket);
-
-    // Strings
-    const tdStrings = document.createElement("td");
-    tdStrings.textContent = strings;
-    tr.appendChild(tdStrings);
-
-    // Shoes
-    const tdShoes = document.createElement("td");
-    tdShoes.textContent = shoes;
-    tr.appendChild(tdShoes);
-
-    // Notes
-    const tdNotes = document.createElement("td");
-    tdNotes.textContent = notes;
-    tr.appendChild(tdNotes);
-
-    return tr;
-  } catch (err) {
-    console.error("Error creating table row:", err, item);
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="6">Error rendering row for player: ${item.Player || "Unknown"}</td>`;
-    return tr;
-  }
+// Convert country name to emoji
+function countryToEmoji(country) {
+  if (!country) return "";
+  return country
+    .toUpperCase()
+    .replace(/ /g, "")
+    .split('')
+    .map(c => String.fromCodePoint(127397 + c.charCodeAt()))
+    .join('');
 }
 
-// Populate the table
+// Create a table row for a player
+function createPlayerRow(item) {
+  const player = item.Player || "";
+  const slug = item.Slug || "";
+  const country = item.Country || "";
+
+  const countryEmoji = countryToEmoji(country);
+  const racket = item["Racket Model"] || "";
+  const strings = item["String Model"] || "";
+  const shoes = item["Shoe Model"] || "";
+  const notes = item.Notes || "";
+
+  const tr = document.createElement("tr");
+
+  // Player cell
+  const tdPlayer = document.createElement("td");
+  tdPlayer.setAttribute("data-label", "Player");
+  tdPlayer.innerHTML = `${countryEmoji} <a href="player.html?player=${slug}"><strong>${player}</strong></a>`;
+  tr.appendChild(tdPlayer);
+
+  // Racket (clickable)
+  const tdRacket = document.createElement("td");
+  tdRacket.setAttribute("data-label", "Racket");
+  tdRacket.innerHTML = `<a href="gear.html?type=racket&name=${encodeURIComponent(racket)}">${racket}</a>`;
+  tr.appendChild(tdRacket);
+
+  // Strings
+  const tdStrings = document.createElement("td");
+  tdStrings.setAttribute("data-label", "Strings");
+  tdStrings.innerHTML = `<a href="gear.html?type=strings&name=${encodeURIComponent(strings)}">${strings}</a>`;
+  tr.appendChild(tdStrings);
+
+  // Shoes
+  const tdShoes = document.createElement("td");
+  tdShoes.setAttribute("data-label", "Shoes");
+  tdShoes.innerHTML = `<a href="gear.html?type=shoes&name=${encodeURIComponent(shoes)}">${shoes}</a>`;
+  tr.appendChild(tdShoes);
+
+  // Notes
+  const tdNotes = document.createElement("td");
+  tdNotes.setAttribute("data-label", "Notes");
+  tdNotes.textContent = notes;
+  tr.appendChild(tdNotes);
+
+  return tr;
+}
+
+// Populate table
 function populateTable(rows) {
   const tbody = document.querySelector("#gear-table tbody");
   tbody.innerHTML = "";
   if (!rows || rows.length === 0) {
-    tbody.innerHTML = "<tr><td colspan='6'>No data found in the spreadsheet.</td></tr>";
-    console.warn("CSV returned 0 rows");
+    tbody.innerHTML = "<tr><td colspan='5'>No data found</td></tr>";
     return;
   }
   rows.forEach(r => tbody.appendChild(createPlayerRow(r)));
 }
 
-// Set up search
+// Search filter
 function setupSearch(rows) {
   const input = document.getElementById("search");
   input.addEventListener("input", e => {
@@ -88,31 +90,28 @@ function setupSearch(rows) {
     if (!q) return populateTable(rows);
 
     const filtered = rows.filter(r => {
-      const combined = `${r.Player || ""} ${r.Country || ""} ${r["Racket Brand"] || ""} ${r["Racket Model"] || ""} ${r["String Brand"] || ""} ${r["String Model"] || ""} ${r["Shoe Brand"] || ""} ${r["Shoe Model"] || ""}`.toLowerCase();
+      const combined = `${r.Player} ${r["Racket Model"]} ${r["String Model"]} ${r["Shoe Model"]}`.toLowerCase();
       return combined.indexOf(q) > -1;
     });
-
-    if (filtered.length === 0) console.warn("Search returned 0 results for query:", q);
 
     populateTable(filtered);
   });
 }
 
-// Initialize site
+// Init
 async function init() {
   const tbody = document.querySelector("#gear-table tbody");
   try {
     const res = await fetch(PUBLISHED_CSV_URL);
-    if (!res.ok) throw new Error("Failed to fetch CSV from Google Sheets");
+    if (!res.ok) throw new Error("Failed to fetch CSV");
     const text = await res.text();
     const data = csvToArray(text);
 
-    console.log("CSV data loaded:", data);
     populateTable(data);
     setupSearch(data);
   } catch (err) {
     console.error("Error loading CSV:", err);
-    tbody.innerHTML = `<tr><td colspan='6'>Failed to load data: ${err.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan='5'>Failed to load data: ${err.message}</td></tr>`;
   }
 }
 
