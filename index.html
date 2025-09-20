@@ -3,17 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tennis Pro Gear</title>
+  <title>Tennis Pro Setup</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: Arial, sans-serif; background:#f8f9fa; margin:0; padding:20px; color:#333;}
+    table { border-collapse: collapse; width:100%; background:#fff; border-radius:10px; overflow:hidden;}
+    th, td { padding:10px; border-bottom:1px solid #ddd; text-align:left;}
+    th { background:#002c6a; color:white;}
+    a { color:#002c6a; text-decoration:none;}
+    a:hover { text-decoration:underline;}
+    #search { margin-bottom: 15px; padding:8px; width:100%; max-width:400px; border-radius:5px; border:1px solid #ccc;}
+  </style>
 </head>
 <body>
-  <h1>Tennis Pro Gear Setups</h1>
+  <h1>Tennis Pro Setup</h1>
   <input type="text" id="search" placeholder="Search players or gear...">
   <table id="gear-table">
     <thead>
       <tr>
         <th>Player</th>
-        <th>Country</th>
         <th>Racket</th>
         <th>Strings</th>
         <th>Shoes</th>
@@ -21,10 +29,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td colspan="6">Loading data...</td></tr>
+      <tr><td colspan="5">Loading data...</td></tr>
     </tbody>
   </table>
-  <script src="https://cdn.jsdelivr.net/npm/tabletop@1.6.0/src/tabletop.js"></script>
+
   <script src="script.js"></script>
 </body>
 </html>
