@@ -1,61 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Player Gear</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 
-  <!-- SEO -->
-  <meta name="description" content="Find out what tennis gear your favorite player uses – rackets, strings, shoes, and more.">
+  <!-- Default meta (will be updated dynamically) -->
+  <meta name="description" content="Find out what gear tennis players use — rackets, strings, shoes and more.">
   <meta name="robots" content="index, follow">
 </head>
 <body>
-  <a href="index.html">← Back to all players</a>
+  <a class="back-link" href="index.html">← Back to all players</a>
 
   <main id="player-content">
-    <h1 id="player-heading">Loading player...</h1>
+    <h1 id="player-name">Loading player...</h1>
     <div id="player-photo"></div>
-    <p id="player-intro"></p>
-    <div id="player-gear"></div>
+    <p id="player-intro" style="max-width:700px;margin:0.6rem auto 1.2rem;text-align:center;color:#444"></p>
+    <div id="player-gear" style="max-width:700px;margin:0 auto;"></div>
   </main>
 
   <script src="player.js"></script>
-  <script>
-    // Update SEO dynamically after player loads
-    function updateSEO(player) {
-      if (!player) return;
-
-      const name = player.Player || "Unknown Player";
-      const flag = player.Flag || "";
-
-      // Update <title>
-      document.title = `${name} Tennis Gear – Racket, Strings, Shoes`;
-
-      // Update meta description
-      const desc = `What gear does ${name} use? Find out the ${player["Racket Brand"]} ${player["Racket Model"]}, ${player["String Brand"]} ${player["String Model"]}, and ${player["Shoe Brand"]} ${player["Shoe Model"]} they rely on.`;
-      let metaDesc = document.querySelector("meta[name='description']");
-      if (metaDesc) {
-        metaDesc.setAttribute("content", desc);
-      } else {
-        metaDesc = document.createElement("meta");
-        metaDesc.name = "description";
-        metaDesc.content = desc;
-        document.head.appendChild(metaDesc);
-      }
-
-      // Update heading & intro
-      document.getElementById("player-heading").textContent = `${flag} ${name} – Tennis Gear`;
-      document.getElementById("player-intro").textContent =
-        `Curious about what gear ${name} uses on tour? Here’s a complete breakdown of their racket, strings, shoes, and more.`;
-    }
-
-    // Hook into existing init
-    const oldPopulatePlayer = window.populatePlayer;
-    window.populatePlayer = function(player) {
-      oldPopulatePlayer(player);
-      updateSEO(player);
-    };
-  </script>
 </body>
 </html>
