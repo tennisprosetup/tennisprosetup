@@ -5,28 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Player Gear</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body { font-family: Arial, sans-serif; background:#f8f9fa; margin:0; padding:20px; color:#333;}
-    a.back-link { display:inline-block; margin-bottom:20px; color:#002c6a; font-weight:bold; text-decoration:none;}
-    #player-content { background:#fff; padding:20px; border-radius:10px; max-width:600px; margin:0 auto; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center;}
-    #player-name { font-size:2em; margin-bottom:10px; color:#002c6a;}
-    #player-photo img { max-width:200px; border-radius:50%; margin-bottom:20px;}
-    #player-gear ul { list-style:none; padding:0; text-align:left;}
-    #player-gear li { margin-bottom:8px;}
-    #player-gear strong { color:#002c6a;}
-    #player-gear a { color:#002c6a; text-decoration:none;}
-    #player-gear a:hover { text-decoration:underline;}
-  </style>
+
+  <!-- SEO -->
+  <meta name="description" content="Find out what tennis gear your favorite player uses – rackets, strings, shoes, and more.">
+  <meta name="robots" content="index, follow">
 </head>
 <body>
-  <a class="back-link" href="index.html">← Back to all players</a>
+  <a href="index.html">← Back to all players</a>
 
-  <div id="player-content">
-    <h1 id="player-name">Loading player...</h1>
+  <main id="player-content">
+    <h1 id="player-heading">Loading player...</h1>
     <div id="player-photo"></div>
+    <p id="player-intro"></p>
     <div id="player-gear"></div>
-  </div>
+  </main>
 
   <script src="player.js"></script>
+  <script>
+    // Update SEO dynamically after player loads
+    function updateSEO(player) {
+      if (!player) return;
+
+      const name = player.Player || "Unknown Player";
+      const flag = player.Flag || "";
+
+      // Update <title>
+      document.title = `${name} Tennis Gear – Racket, Strings, Shoes`;
+
+      // Update meta description
+      const desc = `What gear does ${name} use? Find out the ${player["Racket Brand"]} ${player["Racket Model"]}, ${player["String Brand"]} ${player["String Model"]}, and ${player["Shoe Brand"]} ${player["Shoe Model"]} they rely on.`;
+      let metaDesc = document.querySelector("meta[name='description']");
+      if (metaDesc) {
+        metaDesc.setAttribute("content", desc);
+      } else {
+        metaDesc = document.createElement("meta");
+        metaDesc.name = "description";
+        metaDesc.content = desc;
+        document.head.appendChild(metaDesc);
+      }
+
+      // Update heading & intro
+      document.getElementById("player-heading").textContent = `${flag} ${name} – Tennis Gear`;
+      document.getElementById("player-intro").textContent =
+        `Curious about what gear ${name} uses on tour? Here’s a complete breakdown of their racket, strings, shoes, and more.`;
+    }
+
+    // Hook into existing init
+    const oldPopulatePlayer = window.populatePlayer;
+    window.populatePlayer = function(player) {
+      oldPopulatePlayer(player);
+      updateSEO(player);
+    };
+  </script>
 </body>
 </html>
