@@ -7,7 +7,7 @@ function populatePlayer(data, slug) {
     return;
   }
 
-  const html = `
+  document.getElementById("player-content").innerHTML = `
     <h1>${player.Player}</h1>
     <img src="${player["Photo URL"]}" alt="${player.Player}" class="player-photo">
     <p><strong>Country:</strong> ${player.Country}</p>
@@ -16,8 +16,6 @@ function populatePlayer(data, slug) {
     <p><strong>Shoes:</strong> ${player["Shoe Brand"]} ${player["Shoe Model"]}</p>
     <p><strong>Notes:</strong> ${player.Notes}</p>
   `;
-
-  document.getElementById("player-content").innerHTML = html;
 }
 
 function initPlayer() {
